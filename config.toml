@@ -70,6 +70,16 @@ theme = "FixIt"
     weight = 3
     [menu.main.params]
       icon = "fa-solid fa-tags"
+  [[menu.main]]
+    identifier = "about"
+    pre = ""
+    post = ""
+    name = "About"
+    url = "/about/"
+    title = ""
+    weight = 4
+    [menu.main.params]
+      icon = "fa-solid fa-info-circle"
 
 # -------------------------------------------------------------------------------------
 # Theme Core Configuration
@@ -144,13 +154,13 @@ theme = "FixIt"
       # FixIt 0.2.17 | NEW https://fusejs.io/api/options.html
       isCaseSensitive = false
       minMatchCharLength = 2
-      findAllMatches = false
+      findAllMatches = true
       location = 0
       threshold = 0.3
       distance = 100
-      ignoreLocation = false
-      useExtendedSearch = false
-      ignoreFieldNorm = false
+      ignoreLocation = true
+      useExtendedSearch = true
+      ignoreFieldNorm = true
 
   # Header config
   [params.header]
@@ -421,7 +431,7 @@ theme = "FixIt"
       # FixIt 0.2.9 | NEW whether to keep the static table of the contents in front of the post
       keepStatic = false
       # whether to make the table of the contents in the sidebar automatically collapsed
-      auto = true
+      auto = false
       # FixIt 0.2.13 | NEW position of TOC ["left", "right"]
       position = "right"
     # FixIt 0.2.13 | NEW Display a message at the beginning of an article to warn the reader that its content might be expired
@@ -645,11 +655,11 @@ theme = "FixIt"
       # FixIt 0.2.14 | NEW Giscus comments config
       [params.page.comment.giscus]
         enable = true
-        repo = ""
-        repoId = ""
-        category = ""
-        categoryId = ""
-        mapping = ""
+        repo = "luckypeak-xyz/luckypeak-xyz.github.io"
+        repoId = "R_kgDOKUrEFw"
+        category = "Announcements"
+        categoryId = "DIC_kwDOKUrEF84CZYob"
+        mapping = "pathname"
         strict = "0" # FixIt NEW | 0.2.18
         term = ""
         reactionsEnabled = "1"
