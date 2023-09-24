@@ -4,13 +4,11 @@ author:
   link: "https://blog.luckypeak.xyz"
   email: "me@luckypeak.xyz"
   avatar: "/safari-pinned-tab.svg"
-title: "<% tp.date.now("yyyy-WW") %>"
+title: ""
 subtitle: ""
 date: <% tp.date.now("YYYY-MM-DD") %>
 lastmod: <% tp.date.now("YYYY-MM-DD") %>
-categories: [weekly]
+categories: [LeetCode]
 tags: []
 draft: true
 ---
-
-<!--more-->

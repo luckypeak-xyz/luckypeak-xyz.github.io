@@ -11,6 +11,7 @@ lastmod: 2023-05-11
 categories: []
 tags:
   - Go
+  - Elasticsearch
 draft: false
 ---
 

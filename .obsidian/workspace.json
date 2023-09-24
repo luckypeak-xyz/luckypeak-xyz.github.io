@@ -4,43 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "7c9557154142e47b",
+        "id": "923fc703e69da9c6",
         "type": "tabs",
         "children": [
           {
-            "id": "de0c19ebc66037f8",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
-            "id": "036c351e0594ee67",
+            "id": "750a1d93358c1853",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/functional-options-for-friendly-apis.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "6eb9179081db4a24",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "content/posts/presto-sql-on-everything.md",
+                "file": "content/posts/2023-w38.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -90,7 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 297.5
   },
   "right": {
     "id": "df3a819557a23040",
@@ -106,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/posts/presto-sql-on-everything.md",
+                "file": "content/posts/2023-w38.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/posts/presto-sql-on-everything.md",
+                "file": "content/posts/2023-w38.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/posts/presto-sql-on-everything.md"
+                "file": "content/posts/2023-w38.md"
               }
             }
           },
@@ -165,7 +144,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 219.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -174,22 +153,34 @@
       "canvas:新建白板": false,
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
-      "command-palette:打开命令面板": false
+      "command-palette:打开命令面板": false,
+      "templater-obsidian:Templater": false
     }
   },
-  "active": "6eb9179081db4a24",
+  "active": "00a9295c6735655d",
   "lastOpenFiles": [
-    "content/posts/beyond-functional-options-in-Go.md",
-    "content/posts/functional-options-for-friendly-apis.md",
-    "content/about.md",
-    "content/posts/presto-sql-on-everything.md",
-    "content/posts/golang-defer-notice.md",
-    "content/posts/Elasticsearch-Getting-Started-with-Go.md",
+    "content/posts/leetcode/100047.md",
+    "content/posts/2023-w38.md",
+    "content/posts/2023-w37.md",
+    "templates/leetcode.template.md",
+    "templates/post.template.md",
+    "templates/weekly.template.md",
+    "content/posts/hive-a-petabyte-scale-data-warehouse-using-hadoop.md",
     "content/posts/2023-w18.md",
-    "content/posts/5-golang-code-snippets-for-cybersecurity.md",
     "content/posts/2023-w19.md",
     "content/posts/2023-w20.md",
-    "content/posts/2023-w37.md",
+    "content/posts/leetcode/2653.md",
+    "content/posts/leetcode/2577.md",
+    "content/posts/leetcode/2861.md",
+    "content/posts/Elasticsearch-Getting-Started-with-Go.md",
+    "content/posts/implement-restful-api-using-golang-and-grpc.md",
+    "content/posts/leetcode",
+    "content/posts/beyond-functional-options-in-Go.md",
+    "content/posts/5-golang-code-snippets-for-cybersecurity.md",
+    "content/posts/functional-options-for-friendly-apis.md",
+    "content/posts/golang-defer-notice.md",
+    "content/posts/presto-sql-on-everything.md",
+    "content/about.md",
     "posts/presto-sql-on-everything.md",
     "posts",
     "Pasted image 20230917163633.png",
@@ -198,7 +189,6 @@
     "config.toml",
     "config.old.toml",
     "config.1.toml",
-    "templates/weekly.template.md",
     "templates",
     "---.md"
   ]

@@ -15,6 +15,9 @@ hasCJKLanguage = true
 # 更改使用 Hugo 构建网站时使用的默认主题
 theme = "FixIt"
 
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
 # Hugo 解析文档的配置
 [markup]
   [markup.highlight]
@@ -133,7 +136,7 @@ theme = "FixIt"
   [params.search]
     enable = true
     # type of search engine ["lunr", "algolia", "fuse"]
-    type = "lunr"
+    type = "fuse"
     # max index length of the chunked content
     contentLength = 4000
     # placeholder of the search bar

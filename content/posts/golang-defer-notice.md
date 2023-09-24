@@ -9,7 +9,8 @@ subtitle:
 date: 2023-09-17
 lastmod: 2023-09-17
 categories: []
-tags: []
+tags:
+  - Go
 draft: false
 featuredImagePreview: https://s2.loli.net/2023/09/17/SUVkZh1MWbAogix.png
 featuredImage: https://s2.loli.net/2023/09/17/SUVkZh1MWbAogix.png

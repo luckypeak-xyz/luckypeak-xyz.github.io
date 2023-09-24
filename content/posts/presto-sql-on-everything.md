@@ -8,7 +8,8 @@ title: 【译】Presto - SQL on Everything
 subtitle: ""
 date: 2023-09-17
 lastmod: 2023-09-17
-categories: []
+categories:
+  - 大数据
 tags:
   - Presto
 draft: false
