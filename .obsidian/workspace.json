@@ -8,12 +8,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "750a1d93358c1853",
+            "id": "b5f7567ed56862ce",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/2023-w38.md",
+                "file": "content/posts/you-cannot-specify-true-when-using-hashed-shard-keys..md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/posts/2023-w38.md",
+                "file": "content/posts/you-cannot-specify-true-when-using-hashed-shard-keys..md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/posts/2023-w38.md",
+                "file": "content/posts/you-cannot-specify-true-when-using-hashed-shard-keys..md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/posts/2023-w38.md"
+                "file": "content/posts/you-cannot-specify-true-when-using-hashed-shard-keys..md"
               }
             }
           },
@@ -157,15 +157,22 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "00a9295c6735655d",
+  "active": "b5f7567ed56862ce",
   "lastOpenFiles": [
-    "content/posts/leetcode/100047.md",
+    "content/about.md",
+    "content/posts/you-cannot-specify-true-when-using-hashed-shard-keys..md",
+    "customize-serde-in-hive.md",
+    "content/posts/golang-runtime-dynamic-loading.md",
+    "content/posts/未命名 1.md",
+    "content/posts/hive-a-petabyte-scale-data-warehouse-using-hadoop.md",
+    "content/posts/getting-stated-grpc-in-golang.md",
+    "content/posts/how-defer-gets-faster.md",
+    "templates/post.template.md",
     "content/posts/2023-w38.md",
+    "content/posts/leetcode/100047.md",
     "content/posts/2023-w37.md",
     "templates/leetcode.template.md",
-    "templates/post.template.md",
     "templates/weekly.template.md",
-    "content/posts/hive-a-petabyte-scale-data-warehouse-using-hadoop.md",
     "content/posts/2023-w18.md",
     "content/posts/2023-w19.md",
     "content/posts/2023-w20.md",
@@ -179,9 +186,6 @@
     "content/posts/5-golang-code-snippets-for-cybersecurity.md",
     "content/posts/functional-options-for-friendly-apis.md",
     "content/posts/golang-defer-notice.md",
-    "content/posts/presto-sql-on-everything.md",
-    "content/about.md",
-    "posts/presto-sql-on-everything.md",
     "posts",
     "Pasted image 20230917163633.png",
     "Pasted image 20230917163245.png",
@@ -189,7 +193,6 @@
     "config.toml",
     "config.old.toml",
     "config.1.toml",
-    "templates",
-    "---.md"
+    "templates"
   ]
 }

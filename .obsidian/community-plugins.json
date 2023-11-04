@@ -1,4 +1,6 @@
 [
   "quickadd",
-  "templater-obsidian"
+  "templater-obsidian",
+  "obsidian-style-settings",
+  "obsidian-git"
 ]
