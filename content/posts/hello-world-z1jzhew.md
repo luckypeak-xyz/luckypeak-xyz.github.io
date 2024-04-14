@@ -18,6 +18,4 @@ $$
 E = mc^2
 $$
 
-​![image](assets/image-20240414185222-xotymqy.png)​
-
 ‍
