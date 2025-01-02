@@ -5,10 +5,7 @@ slug: >-
 url: >-
   /post/in-springboot-the-localdatetime-localdate-field-of-web-requests-responding-is-transformed-in-format-z2s5wcc.html
 date: '2025-01-02 22:07:18+08:00'
-lastmod: '2025-01-02 22:08:52+08:00'
-tags:
-  - SpringBoot
-keywords: SpringBoot
+lastmod: '2025-01-03 06:44:20+08:00'
 toc: true
 isCJKLanguage: true
 ---
