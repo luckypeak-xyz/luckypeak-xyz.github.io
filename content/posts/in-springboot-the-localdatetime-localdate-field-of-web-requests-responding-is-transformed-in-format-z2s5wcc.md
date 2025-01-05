@@ -6,6 +6,11 @@ url: >-
   /post/in-springboot-the-localdatetime-localdate-field-of-web-requests-responding-is-transformed-in-format-z2s5wcc.html
 date: '2025-01-02 22:07:18+08:00'
 lastmod: '2025-01-05 21:16:04+08:00'
+tags:
+  - SpringBoot
+categories:
+  - 快乐开发一点通
+keywords: SpringBoot
 toc: true
 isCJKLanguage: true
 ---
@@ -645,7 +650,7 @@ s.SpringDateTimeFormatLearningController : timeTypeSet: SpringDateTimeFormatLear
 
 Console 输出：
 
-```json
+```shell
 s.SpringDateTimeFormatLearningController : timeTypeSet: SpringDateTimeFormatLearningController.TimeTypeSet(date=Sun Jan 05 16:35:56 CST 2025, localDate=2025-01-05, localTime=16:35:56.601981, localDateTime=2025-01-05T16:35:56.601)
 ```
 
