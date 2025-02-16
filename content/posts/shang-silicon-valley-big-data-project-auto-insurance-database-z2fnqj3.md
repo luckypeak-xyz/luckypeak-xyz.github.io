@@ -114,7 +114,7 @@ isCJKLanguage: true
 
 |组件|旧版本|新版本|
 | ------------------| --------| ------------------------------|
-|Hadoop|3.1.3|3.3.4|
+|Hadoop|3.1.3|3.3.5|
 |Zookeeper|3.5.7|3.7.1|
 |MySQL|5.7.16|8.0.31|
 |Hive|3.1.2|3.1.3（修改源码）|
@@ -203,8 +203,8 @@ EMR
 
 ##### 测试集群
 
-|服务名称|子服务|服务器 hadoop102|服务器 hadoop103|服务器 hadoop104|
-| ------------------| ----------------------| ------------------| ------------------| ------------------|
+|服务名称|子服务|服务器 hadoop10|服务器 hadoop11|服务器 hadoop12|
+| ------------------| ----------------------| -----------------| -----------------| -----------------|
 |HDFS|NameNode|✅|||
 ||DataNode|✅|✅|✅|
 ||SecondaryNameNode|||✅|
@@ -212,7 +212,7 @@ EMR
 ||ResourceManager||✅||
 |Zookeeper|Zookeeper Server|✅|✅|✅|
 |Kafka|Kafka|✅|✅|✅|
-|Flume||||✅|
+|Flume||✅|||
 |Hive||✅|✅|✅|
 |MySQL||✅|||
 |DataX||✅|✅|✅|
@@ -650,13 +650,562 @@ bash 的运行模式可分为 login shell 和 non-login shell
 
 ### 集群所有进程查看脚本
 
+‍
+
+```shell
+#!/bin/bash
+
+if [ $# -lt 1 ]
+then
+	echo "必须至少传入一个命令"
+	exit
+fi
+
+for host in hadoop10 hadoop11 hadoop12
+do
+	echo "==========$host=========="
+	if [ "$(hostname)" == "$host" ]; then
+		"$@"
+	else
+		ssh $host "$@"
+	fi
+done
+```
+
 ### Zookeeper 安装
+
+```shell
+cd /opt/software
+
+wget https://archive.apache.org/dist/zookeeper/zookeeper-3.7.1/apache-zookeeper-3.7.1-bin.tar.gz
+
+tar zxvf apache-zookeeper-3.7.1-bin.tar.gz -C /opt/module
+
+cd /opt/module/apache-zookeeper-3.7.1-bin
+
+mkdir zkData
+
+echo '10' >> zkData/myid
+
+cd conf
+
+cp zoo_sample.cfg zoo.cfg
+
+vi zoo.cfg
+dataDir=/opt/module/apache-zookeeper-3.7.1-bin/zkData
+server.10=hadoop10:2888:3888
+server.11=hadoop11:2888:3888
+server.12=hadoop12:2888:3888
+
+cd /opt/module
+
+xsync apache-zookeeper-3.7.1-bin
+
+# 修改其他 server 的 myid 为对应值
+
+/opt/module/apache-zookeeper-3.7.1-bin/bin/zkServer.sh --help
+
+# 以下命令在所有 server 同时执行
+/opt/module/apache-zookeeper-3.7.1-bin/bin/zkServer.sh start
+
+/opt/module/apache-zookeeper-3.7.1-bin/bin/zkServer.sh status
+```
+
+集群操作脚本，xzk
+
+```shell
+#!/bin/bash
+case $1 in
+"start")
+	xcall /opt/module/apache-zookeeper-3.7.1-bin/bin/zkServer.sh start
+;;
+"stop")
+	xcall /opt/module/apache-zookeeper-3.7.1-bin/bin/zkServer.sh stop
+;;
+"status")
+	xcall /opt/module/apache-zookeeper-3.7.1-bin/bin/zkServer.sh status
+;;
+esac
+```
+
+常见命令
+
+```shell
+cd /opt/module/apache-zookeeper-3.7.1-bin/bin
+
+./zkCli.sh
+
+help
+
+ls /
+
+create /test
+
+set /test hello,world
+
+get /test
+
+delete /test
+
+create /test
+
+# 必须先有父节点，才能新建子节点
+create /test/test
+
+create /test/test/test
+
+# delete 只能删除子节点，deleteall 可以删除所有节点
+deleteall /test
+```
 
 ### Hadoop 安装
 
+|服务名称|子服务|服务器 hadoop10|服务器 hadoop11|服务器 hadoop12|
+| ----------| -------------------| -----------------| -----------------| -----------------|
+|HDFS|NameNode|✅|||
+||DataNode|✅|✅|✅|
+||SecondaryNameNode|||✅|
+|Yarn|NodeManager|✅|✅|✅|
+||ResourceManager||✅||
+
+```shell
+cd /opt/software
+
+wget wget https://mirrors.aliyun.com/apache/hadoop/common/hadoop-3.3.5/hadoop-3.3.5.tar.gz
+
+tar zxvf hadoop-3.3.5.tar.gz -C /opt/module
+
+cd /opt/module/hadoop-3.3.5
+
+cd etc/hadoop/
+
+vi core-site.xml
+	<property>
+		<name>hadoop.tmp.dir</name>
+		<value>/opt/module/hadoop-3.3.5/data</value>
+		<description>Where Hadoop will place all of its working files</description>
+	</property>
+	<property>
+		<name>fs.defaultFS</name>
+		<value>hdfs://hadoop10:8020</value>
+		<description>Where HDFS NameNode can be found on the network</description>
+	</property>
+
+	<property>
+		<name>hadoop.http.staticuser.user</name>
+		<value>root</value>
+		<description>配置HDFS网页登录使用的静态用户为root</description>
+	</property>
+
+	<property>
+		<name>hadoop.proxyuser.root.groups</name>
+		<value>*</value>
+		<description>
+			What user groups are allow to connect to the HDFS proxy.
+			* for all.</description>
+	</property>
+	<property>
+		<name>hadoop.proxyuser.root.hosts</name>
+		<value>*</value>
+		<description>
+			What user hosts are allow to connect to the HDFS proxy.
+			* for all.
+		</description>
+	</property>
+	<property>
+		<name>hadoop.proxyuser.root.users</name>
+		<value>*</value>
+		<description>
+			配置允许通过代理访问的用户
+		</description>
+	</property>
+
+vi hdfs-site.xml
+	<property>
+		<name>dfs.namenode.http-address</name>
+		<value>hadoop10:9870</value>
+		<description>
+			namenode web 端访问地址
+		</description>
+	</property>
+	<property>
+		<name>dfs.namenode.secondary.http-address</name>
+		<value>hadoop12:9868</value>
+		<description>
+			secondary namenode web 端访问地址
+		</description>
+	</property>
+	<property>
+		<name>dfs.replication</name>
+		<value>3</value>
+		<description>
+			指定 HDFS 副本数量
+		</description>
+	</property>
+
+vi yarn-site.xml
+	<property>
+		<name>yarn.nodemanager.aux-services</name>
+		<value>mapreduce_shuffle</value>
+	</property>
+
+	<property>
+		<name>yarn.resourcemanager.hostname</name>
+		<value>hadoop11</value>
+	</property>
+	
+	<property>
+		<name>yarn.nodemanagermanager.env-whitelist</name>
+		<value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPERD_HOME</value>
+		<description>环境变量的继承</description>
+	</property>
+
+	<property>
+		<name>yarn.scheduler.minimum-allocation-mb</name>
+		<value>512</value>
+	</property>
+	<property>
+		<name>yarn.scheduler.maximum-allocation-mb</name>
+		<value>4096</value>
+	</property>
+	<property>
+		<name>yarn.nodemanager.resource.memory-mb</name>
+		<value>4096</value>
+	</property>
+
+	<property>
+		<name>yarn.nodemanager.pmem-check-enabled</name>
+		<value>false</value>
+		<description>Whether physics memory limits will be enforced for containers</description>
+	</property>
+	<property>
+		<name>yarn.nodemanager.vmem-check-enabled</name>
+		<value>false</value>
+		<description>Whether virtual memory limits will be enforced for containers</description>
+	</property>
+
+vi workers
+hadoop10
+hadoop11
+hadoop12
+
+vi mapred-site.xml
+	<property>
+		<name>mapreduce.framework.name</name>
+		<value>yarn</value>
+	</property>
+
+
+```
+
+‍
+
+配置历史服务器
+
+```shell
+vi mapred-site.xml
+	<property>
+		<name>mapreduce.framework.name</name>
+		<value>yarn</value>
+	</property>
+
+	<property>
+		<name>mapreduce.jobhistory.address</name>
+		<value>hadoop10:10020</value>
+	</property>
+
+	<property>
+		<name>mapreduce.jobhistory.webapp.address</name>
+		<value>hadoop10:19888</value>
+	</property>
+
+vi yarn-site.xml
+	<!-- 追加 -->
+	<property>
+		<name>yarn.log-aggregation-enable</name>
+		<value>true</value>
+		<description>开启日志聚集功能</description>
+	</property>
+	<property>
+		<name>yarn.log.server.url</name>
+		<value>http://hadoop10:19888/jobhistory/logs</value>
+	</property>
+	<property>
+		<name>yarn.log-aggregation.retain-seconds</name>
+		<value>604800</value>
+	</property>
+```
+
+配置完成后，将 hadoop 分发到其他 server：
+
+```shell
+cd /opt/module
+xsync hadoop-3.3.5
+```
+
+在 hadoop10 上进行 namenode format：
+
+```shell
+vi /etc/profile.d/my_env.sh
+# 新增
+export HADOOP_HOME=/opt/module/hadoop-3.3.5
+export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+export HDFS_NAMENODE_USER=root
+export HDFS_DATANODE_USER=root
+export HDFS_SECONDARYNAMENODE_USER=root
+export YARN_RESOURCEMANAGER_USER=root
+export YARN_NODEMANAGER_USER=root
+
+source /etc/profile
+
+# 分发给其他 server，并执行 source /etc/profile
+
+hadoop namenode -format
+...
+2025-02-16 12:34:13,451 INFO common.Storage: Storage directory /opt/module/hadoop-3.3.5/data/dfs/name has been successfully formatted.
+...
+
+start-dfs.sh
+
+# 在 sourcemanager server 也就是 hadoop11 启动 yarn
+start-yarn.sh
+
+xcall jps
+==========hadoop10==========
+32263 NameNode
+33994 Jps
+10043 QuorumPeerMain
+32460 DataNode
+33660 NodeManager
+==========hadoop11==========
+15665 ResourceManager
+14962 DataNode
+5428 QuorumPeerMain
+15813 NodeManager
+16287 Jps
+==========hadoop12==========
+5474 QuorumPeerMain
+14970 DataNode
+15098 SecondaryNameNode
+15630 Jps
+15487 NodeManager
+```
+
+打开 web 页面进一步验证：
+
+hdfs 192.168.8.10:9870
+
+yarn 192.168.8.11:8088
+
+‍
+
+#### 启动脚本
+
+xhdp
+
+```shell
+#!/bin/bash
+if [ $# -lt 1 ]; then
+	echo "必须传入 start、stop ..."
+	exit
+fi
+case $1 in
+"start")
+	echo "==========启动 hdfs=========="
+	ssh hadoop10 "start-dfs.sh"
+	echo "==========启动 yarn=========="
+	ssh hadoop11 "start-yarn.sh"
+;;
+"stop")
+	echo "==========停止 yarn=========="
+	ssh hadoop11 "stop-yarn.sh"
+	echo "==========停止 hdfs=========="
+	ssh hadoop10 "stop-dfs.sh"
+;;
+esac
+```
+
+授予启动权限，并同步至其他机器：
+
+```shell
+cd ~/bin
+
+vi xhdp
+
+chmod +x xhdp
+
+xsync xhdp
+```
+
+#### HDFS 存储多目录
+
+```shell
+vi hdfs-site.xml
+	<property>
+		<name>dfs.datanode.data.dir</name>
+		<value>file:///dfs/data1,file:///hd2/dfs/data2,file:///hd3/dfs/data3,file:///hd4/dfs/data4</value>
+	</property>
+```
+
+#### 集群数据均衡
+
+节点数据均衡
+
+```shell
+start-balancer.sh -threshold 10
+```
+
+* -threshold 10 各节点间磁盘利用率不超过 10%
+
+```shell
+stop-balancer.sh
+```
+
+磁盘数据均衡
+
+```shell
+# 生成均衡计划
+hdfs diskbalancer -plan hadoop11
+# 执行
+hdfs diskbalancer -execute hadoop11.plan.json
+# 查询
+hdfs diskbalancer -query hadoop11
+# 取消
+hdfs diskbalancer -cancel hadoop11.plan.json
+```
+
+#### Hadoop 参数调优
+
+大集群或大量客户端时，需增大 dfs.namenode.handler.count 为 $20 \times log_e^{clusterSize}$：
+
+```shell
+vi hdfs-site.xml
+	<property>
+		<name>dfs.namenode.handler.count</name>
+		<value>10</value>
+	</property>
+```
+
+数据量大时，需增大 yarn.nodemanager.resource.memory-mb。
+
 ### Kafka 安装
 
+#### 安装步骤
+
+```shell
+cd /opt/software
+
+wget https://archive.apache.org/dist/kafka/3.3.1/kafka_2.12-3.3.1.tgz
+
+tar zxvf kafka_2.12-3.3.1.tgz -C /opt/module
+
+cd /opt/module/kafka_2.12-3.3.1/config
+
+vi server.properties
+broker.id=10 # 10 11 12
+log.dirs=/opt/module/kafka_2.12-3.3.1/data
+zookeeper.connect=hadoop10:2181,hadoop11:2181,hadoop12:2181/kafka_2.12-3.3.1
+
+cd /opt/module
+
+xsync kafka_2.12-3.3.1
+
+# 修改 broker.id 为对应值
+
+# 启动（需先启动 zk）
+/opt/module/kafka_2.12-3.3.1/bin/kafka-server-start.sh -daemon /opt/module/kafka_2.12-3.3.1/config/server.properties
+
+# 在其他 server 启动
+```
+
+#### 启动脚本
+
+xkafka
+
+```shell
+#!/bin/bash
+if [ $# -lt 1 ]; then
+	echo "必须传入 start、stop ..."
+	exit
+fi
+case $1 in
+"start")
+	echo "==========启动 kafka=========="
+	xcall /opt/module/kafka_2.12-3.3.1/bin/kafka-server-start.sh -daemon /opt/module/kafka_2.12-3.3.1/config/server.properties
+;;
+"stop")
+	echo "==========停止 kafka=========="
+	xcall /opt/module/kafka_2.12-3.3.1/bin/kafka-server-stop.sh
+;;
+esac
+```
+
+#### 常用命令操作
+
+topic：
+
+```shell
+cd /opt/module/kafka_2.12-3.3.1/bin
+
+./kafka-topics.sh --create --bootstrap-server hadoop10:9092 --topic test --partitions 2 --replication-factor 2
+
+./kafka-topics.sh --list --bootstrap-server hadoop10:9092
+
+./kafka-topics.sh --describe --topic test --bootstrap-server hadoop10:9092
+
+./kafka-topics.sh --alter --topic test --bootstrap-server hadoop10:9092 --partitions 3
+
+./kafka-topics.sh --delete --topic test --bootstrap-server hadoop10:9092
+```
+
+producer 和 consumer：
+
+```shell
+cd /opt/module/kafka_2.12-3.3.1/bin
+
+./kafka-console-producer.sh --topic test --bootstrap-server hadoop10:9092
+k1 v1
+k2 v2
+k3 v3
+
+./kafka-console-consumer.sh --topic test --bootstrap-server hadoop10:9092 --from-beginning
+```
+
 ### Flume 安装
+
+#### 安装步骤
+
+```shell
+cd /opt/software
+
+wget https://mirrors.aliyun.com/apache/flume/1.11.0/apache-flume-1.11.0-bin.tar.gz
+
+tar zxvf apache-flume-1.11.0-bin.tar.gz -C /opt/module
+
+cd /opt/module/apache-flume-1.11.0-bin/conf
+
+vi log4j2.xml 
+...
+<Configuration status="ERROR">
+  <Properties>
+    <Property name="LOG_DIR">/opt/module/apache-flume-1.11.0-bin/logs</Property>
+  </Properties>
+  ...
+
+  <Loggers>
+    ...
+    <Root level="INFO">
+      <AppenderRef ref="LogFile" />
+      <AppenderRef ref="Console" />
+    </Root>
+  </Loggers>
+</Configuration>
+
+# 修改配置
+vi flume-env.sh.template
+export JAVA_OPTS="-Xms2048m -Xmx2048m -Dcom.sun.management.jmxremote"
+```
 
 ### MySQL 安装
 
