@@ -14,6 +14,8 @@ isCJKLanguage: true
 
 <iframe src="https://player.bilibili.com/player.html?isOutside=true&amp;aid=35764595&amp;bvid=BV1Vt411U7j1&amp;cid=62750044&amp;p=1" data-src="//player.bilibili.com/player.html?isOutside=true&amp;aid=35764595&amp;bvid=BV1Vt411U7j1&amp;cid=62750044&amp;p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
 
+{{< bilibili id=BV1Vt411U7j1 >}}
+
 luckypeak 不是个讲究人儿，但是忽然有天，lp 变了，lp 想从「不邋遢」开始做一个讲究人儿。
 
 他从个人、衣物和房间的清洁出发，制定了以下的计划：
